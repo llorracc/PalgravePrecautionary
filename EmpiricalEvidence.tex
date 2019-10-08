@@ -1,0 +1,151 @@
+
+\subsection{Euler Equation Methods}
+
+The early literature relevant to identifying the strength
+of precautionary motives tended to rely on Euler
+equation estimation (see \cite{browning&lusardi:jel} for a survey),
+often by estimating regression equations of the form
+\begin{eqnarray}
+  \Delta \log {c}_{t+1} & = & \alpha_{0}+\alpha_{1} \mathbf{E}_{t}[r_{t+1}]
+\end{eqnarray}
+and interpreting the coefficient on the interest rate term as an estimate
+of the inverse of the coefficient of relative risk aversion (which holds true
+under time-separable CRRA utility, cf. \eqref{eq:CGrowPF}).
+However, this analysis did not take into account the dependence of higher order
+terms like $\phi$ on the independent variables (see \eqref{eq:phi}).  Some papers like~\cite{dynan:precautionary}
+attempted to account for precautionary contributions to consumption growth;
+but see \cite{carroll:death} for a critique of the whole Euler equation literature
+(including the second-order approach).
+
+\subsection{Structural Estimation Using Micro Data}
+
+A new methodology for estimating the importance of precautionary motives was pioneered by
+\cite{gpCoverLC} and \cite{cagettiWprofiles} (with a related earlier contribution
+by~\cite{palumbo:medical}).  Their idea was to calibrate an explicit life cycle optimization problem using
+empirical data on the magnitude of household-level income shocks, and to search econometrically for the values
+of parameters such as the coefficient of relative risk aversion that maximized the model's ability to fit some
+measured feature of the empirical data.  \cite{gpCoverLC} matched the profile of mean
+consumption over the lifetime; \cite{cagettiWprofiles} matched the profile of median wealth.  The intensity of
+the precautionary motive emerges, in each case, as an estimate of the coefficient of relative risk aversion,
+which \cite{gpCoverLC} put at about 1.4 and \cite{cagettiWprofiles} finds to be somewhat
+larger. (A value of 1 corresponds to logarithmic utility).  One important caution about these quantitative
+results is that the method's estimates of relative risk aversion depend on the model's assumption about the
+degree of risk households face.  
+\begin{comment} 
+Recent work by \cite{lmp:wagerisk} suggests that the estimates of the magnitude
+of permanent shocks in \cite{carroll&samwick:nature} used for calibration by \cite{gpCoverLC}
+and \cite{cagettiWprofiles} may be overstated by as much as 50 percent.
+\end{comment}
+Recent work by \cite{lmp:wagerisk} that attempts to correct for measurement problems caused by 
+job mobility suggests that the estimates of the magnitude
+of permanent shocks in \cite{carroll&samwick:nature} used for calibration by \cite{gpCoverLC}
+and \cite{cagettiWprofiles} may be overstated by as much as 50 percent.
+Reestimation of the structural parameters
+using the Low et.\ al.\ calibration would generate larger estimates of relative risk aversion.
+
+\subsection{Regression Evidence}
+
+A separate literature attempts direct empirical measurement of the
+relationship between uncertainty and wealth.  To fix notation, index
+individual households by $i$ and assume uncertainty for household $i$
+in period $t$ can be measured by some variable $\sigma_{t,i}$. Then in
+its simplest form the idea is to perform a regression of cash-on-hand on 
+its determinants along the lines of
+\begin{eqnarray}
+  \log {m}_{t,i} & = & \sigma_{t,i} \gamma + Z_{t,i} \alpha + \epsilon_{t,i}
+\end{eqnarray}
+where $Z$ is some set of variables that capture life cycle, time
+series, and other nonprecautionary effects.  In principle, one can
+then calculate the predicted magnitude of ${m}$ if everyone's
+uncertainty were set to zero (or some alternative like the minimum
+measured value of $\sigma$ in the population).
+
+In principle this method permits the data to speak in a much less
+filtered way than the structural estimation approach.  A drawback is
+that even if the magnitude of precautionary wealth could be estimated
+reliably and precisely, it would not be clear how to translate those
+estimates into a measure of relative risk aversion or some other set
+of behavioral parameters that could be used for analyzing policy
+questions such as the optimal design of unemployment insurance or
+taxation.
+
+A further disadvantage is that the method does not reliably yield the
+same answer in different data.  Using a measure of subjective earnings uncertainty from a
+survey of Italian households, \cite{gjt:smallPS} estimate the
+precautionary component of wealth at only a few percent, while
+\cite{kazarosian:restat} and \cite{carroll&samwick:howbig} estimate
+the precautionary component of wealth for typical U.S.\ households to
+be in the range of 20-50 percent.  \cite{hlkt:precautionary} argue
+that estimates of $\alpha$ are inordinately sensitive to whether
+business owners are included in the dataset; and work by
+\cite{lusardi:importance,lusardi:subjective} and \cite{EngenGruber:UI}
+implies much smaller precautionary wealth.  Such large variation in
+empirical estimates is not plausibly attributable to actual behavioral
+differences across the various sample populations.
+
+A problem that plagues all these efforts is identifying exogenous
+variations in uncertainty across households.  The standard method has
+been to use patterns of variation across age, occupation, education,
+industry, and other characteristics.  This runs the danger that people
+who are more risk tolerant may both choose to work in a risky industry
+and choose not to save much, biasing downward the estimate of the
+effect of an exogenous change in risk.
+
+One recent paper attempts to get around this problem by using a
+natural experiment: \cite{fs:germany} show that before the collapse of
+the Berlin Wall, East German civil servants had similar income
+uncertainty to that faced by other East Germans.  However, after the
+collapse of Communism, income uncertainty went up dramatically for
+most East Germans - but not for civil servants, who were given
+essentially the same risk-free jobs in the new merged government that
+they had had before the collapse.  \cite{fs:germany} show that, in
+accord with a model that includes substantial precautionary effects,
+saving rates of most East Germans increased sharply after unification,
+but saving rates of civil servants did not.  By contrast, the West
+Germans--who would have been subject to more selection into jobs based
+on risk preferences--exhibited little difference in saving rates
+between civil servants and others with riskier jobs, either before or
+after reunification.
+
+\subsection{Survey Evidence}
+
+Given the difficulties of obtaining reliable quantitative measures 
+of precautionary motives using the revealed preference econometric
+techniques sketched above, some researchers have turned to
+approaches that involve asking survey participants more direct questions.
+
+\cite{KennickellLusardiDisentangling} find that when respondents for
+the 1995 and 1998 U.S. {\it Survey of Cosnumer Finances} are asked
+their target level of precautionary wealth, most have little
+difficulty answering the question; desired precautionary wealth
+represents about 8 percent of total net worth and 20 percent of total
+financial wealth.  They find that respondents cite a broad array of
+risks in making their precautionary targets: In addition to labor
+income risk, they face health risk, business risk, and the risks of
+unavoidable expenditures (e.g. home repairs).  (Consumers are clearly
+aware of the theoretical point that a given dollar of wealth can
+provide self-insurance against multiple different kinds of risks,
+since the risks are not likely to be perfectly correlated with each
+other).
+
+Carefully designed survey questions can in principle also be used to
+elicit information on the strength of underlying preferences (like
+risk aversion) that determine precautionary behavior.  The principle
+that whenever risk-bearing increases with assets, the precautionary
+saving motive (prudence) must be stronger than risk aversion provides
+an important theoretical lower bound on the degree of prudence.
+Using survey responses to hypothetical gambles over lifetime income in the
+{\em Health and Retirement Study}, \cite{kssImputing} estimate that
+relative risk aversion has a median of 6.3 and a mean of 8.2.  (Note
+that because of Jensen's inequality, the mean of relative risk
+aversion $E \rho$ is larger than the reciprocal of the mean of
+relative risk tolerance $\frac{1}{E(1/\rho)}$.)  These estimates of
+relative risk aversion imply precautionary saving motives much
+stronger than those that have been used empirically to match observed
+wealth holdings.  This discrepancy remains
+unresolved.
+
+
+
+
+\ifthenelse{\boolean{StandAlone}}{\end{document}}{}
