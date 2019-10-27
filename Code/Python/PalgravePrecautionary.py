@@ -20,8 +20,15 @@
 #
 # This notebook reproduces the figures in Christopher D. Carroll and Miles S. Kimball's entry on [Precautionary Saving and Precautionary Wealth](http://www.econ2.jhu.edu/people/ccarroll/PalgravePrecautionary.pdf) in [The New Palgrave Dictionary of Economics](https://www.palgrave.com/gp/book/9781349951888), using tools from the [Econ-ARK](https://econ-ark.org/) project.
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Uninteresting setup of the computational environment 
+
+# !pip install econ-ark
+# !pip install numpy
+# !pip install matplotlib 
+# !pip install scipy 
+
+
 from HARK.ConsumptionSaving.ConsIndShockModel import IndShockConsumerType
 
 import matplotlib.pyplot as plt
