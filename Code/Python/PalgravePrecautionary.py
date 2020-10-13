@@ -6,7 +6,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.1
+#       jupytext_version: 1.2.4
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -45,7 +45,7 @@ from scipy.optimize import root_scalar
 # a perfect foresight one and one with shocks to income
 
 # Import standard parameters
-from HARK.ConsumptionSaving.ConsumerParameters import init_idiosyncratic_shocks
+from HARK.ConsumptionSaving.ConsIndShockModel import init_idiosyncratic_shocks
 IdiosyncDict = init_idiosyncratic_shocks
 
 # Make modifications to fit our problem:
