@@ -30,6 +30,7 @@
 
 
 from HARK.ConsumptionSaving.ConsIndShockModel import IndShockConsumerType
+from HARK.distribution import DiscreteDistribution
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -40,7 +41,10 @@ from copy import copy
 from scipy.interpolate import interp1d
 from scipy.optimize import root_scalar
 
-# %% {"code_folding": [0]}
+from ipywidgets import interact, interactive, fixed, interact_manual
+import ipywidgets as widgets
+
+# %% {"code_folding": []}
 # Define parameters for two consumers,
 # a perfect foresight one and one with shocks to income
 
@@ -68,11 +72,11 @@ IdiosyncDict["TranShkCount"] = 2
 
 # Create a copy with income uncertainty turned off, for comparison
 PFDict = copy(IdiosyncDict)
-PFDict["PermShkStd"] = [0]
 PFDict["TranShkStd"] = [0]
+PFDict["TranShkCount"] = 1
 
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Create and solve problems for the two consumers
 IndShockConsumer = IndShockConsumerType(**IdiosyncDict)
 IndShockConsumer.cycles = 2 # Make this type have a two-period horizon
@@ -110,7 +114,7 @@ PFConsumer.solve()
 # $a^{**}$. This increase is the precautionary saving induced by the uncertainty 
 # around income.
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # Figure 1
 
 def uP(agent, c):
@@ -146,54 +150,141 @@ def approxOmegaP(agent):
     
     return(omegaP)
 
-# Level of beginning-of-period resources
-m = 3
+def create_income_dstn(epsilon):
+    
+    # No permanent income shocks and 1+eps, 1-eps with half chance each for transitory.
+    IncomeDstn = DiscreteDistribution(np.array([0.5,0.5]),
+                                      [np.array([1,1]), np.array([1-epsilon,1+epsilon])])
 
-# Approximate omega with and without uncertainty
-omegaP_uncert = approxOmegaP(IndShockConsumer)
-omegaP_PF = approxOmegaP(PFConsumer)
+def create_agents(CRRA,TranShkStd):
+    
+    # Copy base dictionaries
+    un_dict = copy(IdiosyncDict)
+    pf_dict = copy(PFDict)
+    
+    # Update CRRA
+    un_dict['CRRA'] = CRRA
+    pf_dict['CRRA'] = CRRA
+    
+    # Update transitory shock sd
+    un_dict["TranShkStd"] = [TranShkStd]
+    
+    IndShockConsumer = IndShockConsumerType(**un_dict)
+    IndShockConsumer.cycles = 2 # Make this type have a two-period horizon
+    IndShockConsumer.solve()
 
-# Consumption functions
-cPF = PFConsumer.solution[0].cFunc
-cIS = IndShockConsumer.solution[0].cFunc
+    PFConsumer = IndShockConsumerType(**pf_dict)
+    PFConsumer.cycles = 2
+    PFConsumer.solve()
+    
+    return((IndShockConsumer, PFConsumer))
 
-# Find intercepts with marginal utility
-a_star1 = m - cPF(m)
-a_star2 = m - cIS(m)
+def fig1(CRRA, TranShkStd, m, a_m_min, a_m_max):
+    
+    # Create and solve consumers
+    IndShockConsumer, PFConsumer = create_agents(CRRA, TranShkStd)
+    
+    # Approximate omega with and without uncertainty
+    omegaP_uncert = approxOmegaP(IndShockConsumer)
+    omegaP_PF = approxOmegaP(PFConsumer)
 
-# Grid for end-of-period assets
-a_min = 0.6*a_star1
-a_max = 1.3*a_star2
-a_grid = np.linspace(a_min, a_max, 50)
+    # Consumption functions
+    cPF = PFConsumer.solution[0].cFunc
+    cIS = IndShockConsumer.solution[0].cFunc
 
-# Line labels
-lab1 = '$\omega_t\'(a) = R \\beta E_t [v_{t+1}\'(aR + \\tilde{y}_{t+1})]$'
-lab2 = '$R \\beta v_{t+1}\'(aR + E_t[\\tilde{y}_{t+1}])$'
-lab3 = '$u\'(m_t-a)$'
+    # Find intercepts with marginal utility
+    a_star1 = m - cPF(m)
+    a_star2 = m - cIS(m)
 
-# Main lines
+    # Grid for end-of-period assets
+    a_grid = np.linspace(a_m_min*m, a_m_max*m, 50)
 
-# Omega uncertainty
-plt.figure(figsize = (10,8))
-plt.plot(a_grid, omegaP_uncert(a_grid), label = lab1)
-# Omega Perfect foresight
-plt.plot(a_grid, omegaP_PF(a_grid), label = lab2)
-# Marginal utility
-plt.plot(a_grid, uP(IndShockConsumer, m - a_grid), label = lab3)
+    # Line labels
+    lab1 = '$\omega_t\'(a) = R \\beta E_t [v_{t+1}\'(aR + \\tilde{y}_{t+1})]$'
+    lab2 = '$R \\beta v_{t+1}\'(aR + E_t[\\tilde{y}_{t+1}])$'
+    lab3 = '$u\'(m_t-a)$'
 
-# Intersection lines
-ymin = plt.gca().get_ylim()[0]
-plt.plot([a_star1,a_star1],[ymin, uP(IndShockConsumer,m-a_star1)],'--k')
-plt.plot([a_star2,a_star2],[ymin, uP(IndShockConsumer,m-a_star2)],'--k')
+    # Main lines
 
-# x-axis ticks
-ax = plt.gca()
-ax.set_xticks([a_star1,a_star2])
-ax.set_xticklabels(["$a^*$","$a^{**}$"])
+    # Omega uncertainty
+    plt.figure(figsize = (10,8))
+    plt.plot(a_grid, omegaP_uncert(a_grid), label = lab1)
+    # Omega Perfect foresight
+    plt.plot(a_grid, omegaP_PF(a_grid), label = lab2)
+    # Marginal utility
+    plt.plot(a_grid, uP(IndShockConsumer, m - a_grid), label = lab3)
 
-# Text
-plt.xlabel('a', x=1)
-plt.legend()
+    # Intersection lines
+    ymin = plt.gca().get_ylim()[0]
+    plt.plot([a_star1,a_star1],[ymin, uP(IndShockConsumer,m-a_star1)],'--k')
+    plt.plot([a_star2,a_star2],[ymin, uP(IndShockConsumer,m-a_star2)],'--k')
+
+    # x-axis ticks
+    ax = plt.gca()
+    ax.set_xticks([a_star1,a_star2])
+    ax.set_xticklabels(["$a^*$","$a^{**}$"])
+
+    # Text
+    plt.xlabel('a', x=1)
+    plt.legend()
+
+
+
+# %%
+# Widget
+
+# CRRA - slider
+crra_slider = widgets.FloatSlider(
+                min = 1.02,
+                max = 8,
+                step = 0.01,
+                value = 2,  # Default value
+                continuous_update=False,
+                readout_format ='.4f',
+                description='$\\rho$')
+
+# m - slider
+m_slider = widgets.FloatSlider(min = 1.00,
+                               max = 5,
+                               step = 0.5,
+                               value = 3,  # Default value
+                               continuous_update=False,
+                               readout_format ='.4f',
+                               description='$m$')
+
+# a_left_limit - slider
+a_m_min_slider = widgets.FloatSlider(min = 0.05,
+                                     max = 0.5,
+                                     step = 0.01,
+                                     value = 0.2,  # Default value
+                                     continuous_update=False,
+                                     readout_format ='.4f',
+                                     description='$a_{\\min}/m$')
+
+# a_right_limit - slider
+a_m_max_slider = widgets.FloatSlider(min = 0.5,
+                                     max = 0.99,
+                                     step = 0.01,
+                                     value = 0.8,  # Default value
+                                     continuous_update=False,
+                                     readout_format ='.4f',
+                                     description='$a_{\\max}/m$')
+
+# Shock std - slider
+TranShkStd_slider = widgets.FloatSlider(min = 0.1,
+                                        max = 5,
+                                        step = 0.01,
+                                        value = 1,  # Default value
+                                        continuous_update=False,
+                                        readout_format ='.4f',
+                                        description='Shock s.d.')
+
+interact(fig1,
+         CRRA = crra_slider,
+         TranShkStd = TranShkStd_slider,
+         m = m_slider,
+         a_m_min = a_m_min_slider,
+         a_m_max = a_m_max_slider)
 
 # %% [markdown]
 # ## Figure 2
@@ -245,7 +336,7 @@ plt.legend()
 # %% [markdown]
 # # Figure 3
 
-# %% {"code_folding": [0]}
+# %% {"code_folding": []}
 # If perfect foresight marginal value (blue) is convex, adding uncertainty increases marginal value (Jensen)
 y_bar = 1
 eta = 0.5
