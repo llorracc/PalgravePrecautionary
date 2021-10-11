@@ -6,7 +6,7 @@
 #       extension: .py
 #       format_name: percent
 #       format_version: '1.2'
-#       jupytext_version: 1.2.4
+#       jupytext_version: 1.2.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -325,8 +325,8 @@ def fig2(CRRA, TranShkStd, m_max):
     # Stable resource line
     plt.plot(m_grid, m0_locus(m_grid), label = 'Perm. Inc')
     # Target
-    targ = (IndShockConsumer.solution[0].mNrmSS,
-            IndShockConsumer.solution[0].cFunc(IndShockConsumer.solution[0].mNrmSS))
+    targ = (IndShockConsumer.solution[0].mNrmStE,
+            IndShockConsumer.solution[0].cFunc(IndShockConsumer.solution[0].mNrmStE))
     plt.plot(targ[0], targ[1], '*')
 
     # Annotations
