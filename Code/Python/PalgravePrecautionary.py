@@ -229,6 +229,7 @@ def fig1(CRRA, TranShkStd, m, a_m_min, a_m_max):
     # Text
     plt.xlabel('a', x=1)
     plt.legend()
+    plt.show()
 
 
 
@@ -338,6 +339,7 @@ def fig2(CRRA, TranShkStd, m_max):
                  arrowprops=dict(facecolor='black', shrink=0.05,
                                  headwidth = 3, width = 0.5))
     plt.legend()
+    plt.show()
 
 
 # %%
@@ -440,6 +442,7 @@ def fig3(CRRA, eta, a):
     plt.xlabel('$a_t$')
     plt.ylabel('$v\'_{t+1}$')
     plt.legend()
+    plt.show()
 
 
 # %%
