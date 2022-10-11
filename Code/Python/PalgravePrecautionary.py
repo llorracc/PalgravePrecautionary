@@ -1,12 +1,13 @@
 # ---
 # jupyter:
 #   jupytext:
+#     cell_metadata_json: true
 #     formats: ipynb,py:percent
 #     text_representation:
 #       extension: .py
 #       format_name: percent
-#       format_version: '1.2'
-#       jupytext_version: 1.2.3
+#       format_version: '1.3'
+#       jupytext_version: 1.13.7
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -225,7 +226,7 @@ def fig1(CRRA, TranShkStd, m, a_m_min, a_m_max):
     ax = plt.gca()
     ax.set_xticks([a_star1,a_star2])
     ax.set_xticklabels(["$a^*$","$a^{**}$"])
-
+    plt.ylim(0,1.5)
     # Text
     plt.xlabel('a', x=1)
     plt.legend()
@@ -331,6 +332,7 @@ def fig2(CRRA, TranShkStd, m_max):
     plt.plot(targ[0], targ[1], '*')
 
     # Annotations
+    plt.ylim(0,5)
     plt.xlabel('m')
     plt.ylabel('c')
     plt.annotate('Target',
@@ -439,6 +441,7 @@ def fig3(CRRA, eta, a):
     ax.set_xticklabels(["$\\bar{a}$"])
 
     # Axis labels and legend
+    plt.ylim(0,0.5)
     plt.xlabel('$a_t$')
     plt.ylabel('$v\'_{t+1}$')
     plt.legend()
